@@ -1,11 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import headLogo from "../assets/headLogo(black).png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
+import {useFirebase} from "../contexts/Firebase";
 
 const ResetPassword = () => {
-    const handleResetSubmit = (e) => {
+
+const firebase = useFirebase();
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState(null);
+    const handleResetSubmit = async(e) => {
         e.preventDefault();
+        try {
+            await firebase.resetPassword(email);
+            setMessage('Password reset email sent! Check your inbox.');
+          } catch (error) {
+            setMessage(`Error: ${error.message}`);
+          }
     }
 
     return (
@@ -19,13 +30,17 @@ const ResetPassword = () => {
                     <form onSubmit={handleResetSubmit} className='w-full flex flex-col justify-center items-center'>
                         <div className='flex flex-col items-start w-full font-Regular mt-[1rem]'>
                             <span className='text-[1.1rem]'>Email address</span>
-                            <input type="text" placeholder='Enter your registered email' className='border-border w-full border-[1px] mt-[0.5rem] rounded-lg px-[0.8rem] py-[0.5rem] outline-txt-gray-black-black' />
+                            <input type="text" placeholder='Enter your registered email' value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                             className='border-border w-full border-[1px] mt-[0.5rem] rounded-lg px-[0.8rem] py-[0.5rem] outline-txt-gray-black-black' />
                         </div>
                     </form>
-                    <button className='font-Regular mt-[1rem] bg-border text-nav-white w-full py-[0.5rem] text-center cursor-pointer rounded-lg transition'>
+                    <button type='Submit' className='font-Regular mt-[1rem] bg-border text-nav-white w-full py-[0.5rem] text-center cursor-pointer rounded-lg transition'>
                         Send Reset Link
                         <FontAwesomeIcon icon={faCaretRight} className='ml-[0.5rem]' />
                     </button>
+                    {message && <p className="mt-3">{message}</p>}
                 </div>
             </div>
         </div>
