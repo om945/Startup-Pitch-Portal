@@ -20,6 +20,10 @@ const PitchDetails = () => {
     const [hover, setHover] = useState(null);
     const [locked, setLocked] = useState(false);
 
+    // useEffect(() => {
+    //     firebase.listAllPitchs().then((pitch) => setData(pitch.docs))
+    // })
+
     useEffect(() => {
         if (pitchID) {
             firebase.getPitchByID(pitchID).then((value) => {
@@ -29,6 +33,7 @@ const PitchDetails = () => {
                     setData(pitchData);
                 }
                 setLoading(false);
+                
             });
         }
     }, [firebase, pitchID]);
@@ -75,6 +80,9 @@ const PitchDetails = () => {
         : typeof data.tags === 'string'
             ? data.tags.split(',').map(tag => tag.trim()).filter(Boolean)
             : [];
+    
+            console.log("📸 Image URL:", data.Resource);
+
 
     return (
         <div className='flex flex-col w-full'>
@@ -120,7 +128,7 @@ const PitchDetails = () => {
                                     <h2 className='font-Medium text-txt-black'>Pitch Attachments</h2>
                                 </div>
                                 <div className='mt-[1rem] h-[15rem] w-full'>
-                                    <video src={recipeApp} controls className='rounded-2xl h-[15rem] w-full object-cover'></video>
+                                    <img src={data.Resorce}  className='rounded-2xl h-[15rem] w-full object-cover'></img>
                                 </div>
                             </div>
 

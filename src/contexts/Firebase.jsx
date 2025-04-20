@@ -221,16 +221,17 @@ export const FirebaseProvider = (props) => {
         }
     };
 
-    const handleCreateNewPitch = async (pitch, PitchDetails, category, funding_goal, tags,) => {
+    const handleCreateNewPitch = async (pitch, PitchDetails, category, funding_goal, tags, Resorce) => {
         const tagArray = typeof tags === 'string'
             ? tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
             : Array.isArray(tags) ? tags : [];
         await addDoc(collection(firestore, 'Pitchs'), {
-
+            
             pitch,
             PitchDetails,
             category,
             funding_goal,
+            Resorce,
             tags: tagArray,
             userID: user.uid,
             userEmail: user.email,

@@ -9,6 +9,7 @@ const UploadPitch = () => {
     const [category, setcategory] = useState('');
     const [fundinggoles, setfundinggoles] = useState('');
     const [usetags, setusetags] = useState('');
+    const [userRes, setuserRes] = useState('');
 
 
 
@@ -17,13 +18,14 @@ const UploadPitch = () => {
     const handlePitchSubmit = async (e) => {
         e.preventDefault();
         await firebase.handleCreateNewPitch(
-
+            
             pitchTitle,
             pitchDetails,
             category,
             fundinggoles,
+            
             usetags,
-
+            userRes,
         )
     };
 
@@ -45,6 +47,7 @@ const UploadPitch = () => {
   })
     
     const uploadedImageURL = await res.json();
+      setuserRes(uploadedImageURL.url)
     console.log(uploadedImageURL.url);
     setLoading(false)
 
